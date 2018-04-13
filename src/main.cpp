@@ -31,13 +31,17 @@ int main() {
 				printf("Close!\n");
 				window.close();
 			}
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space) {
+				// UPDATE
+				while (!vertices.empty()) delete vertices.front(), vertices.pop_front();
+				while (!edges.empty()) delete edges.front(), edges.pop_front();
+				vertices = generateVertices(WIDTH, HEIGHT, MARGIN);
+				edges = generateEdges(&vertices);
+			}
 		}
 
 		if (totalTime > nextUpdate) {
-			while (!vertices.empty()) delete vertices.front(), vertices.pop_front();
-			while (!edges.empty()) delete edges.front(), edges.pop_front();
-			vertices = generateVertices(WIDTH, HEIGHT, MARGIN);
-			edges = generateEdges(&vertices);
+			// Here something can be run every UPDATE_INTERVAL seconds
 			nextUpdate = totalTime + UPDATE_INTERVAL;
 		}
 
@@ -56,4 +60,8 @@ int main() {
 	}
 
 	return 0;
+}
+
+void shit() {
+	printf("shit...\n");
 }
