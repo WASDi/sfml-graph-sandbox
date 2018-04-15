@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <complex>
 #include <list>
-#include "util.cpp"
 #include "generate_graph.cpp"
 #include "Vertex.h"
 
@@ -11,8 +10,10 @@
 
 #define UPDATE_INTERVAL 4.0
 
+// TODO make into class
+// TODO separate logic and graphics
 int main() {
-	init_rand();
+	Util::init_rand();
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "My cool graphs!");
 	window.setVerticalSyncEnabled(true);
 
@@ -60,8 +61,4 @@ int main() {
 	}
 
 	return 0;
-}
-
-void shit() {
-	printf("shit...\n");
 }

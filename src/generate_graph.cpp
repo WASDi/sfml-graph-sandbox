@@ -1,4 +1,6 @@
 #include "Vertex.h"
+#include "Edge.h"
+#include "Util.h"
 #include <SFML/Graphics/Shape.hpp>
 #include <list>
 #include <SFML/Graphics/RectangleShape.hpp>
@@ -16,8 +18,8 @@ std::list<Vertex*> generateVertices(const int WIDTH, const int HEIGHT, const int
 		sf::Shape* shape = new sf::CircleShape(CIRCLE_RADIUS);
 		shape->setOrigin(CIRCLE_RADIUS, CIRCLE_RADIUS);
 		shape->setPosition(
-				MARGIN + randf()*(WIDTH - CIRCLE_RADIUS * 2 - MARGIN * 2),
-				MARGIN + randf()*(HEIGHT - CIRCLE_RADIUS * 2 - MARGIN * 2)
+				MARGIN + Util::randf()*(WIDTH - CIRCLE_RADIUS * 2 - MARGIN * 2),
+				MARGIN + Util::randf()*(HEIGHT - CIRCLE_RADIUS * 2 - MARGIN * 2)
 				);
 		shape->setFillColor(sf::Color::Green);
 		shape->setOutlineThickness(1);
@@ -33,7 +35,7 @@ std::list<Vertex*> generateVertices(const int WIDTH, const int HEIGHT, const int
 		std::list<Vertex*>::iterator others = vertices.begin();
 		for (std::advance(others, idx + 1); others != vertices.end(); ++others) {
 			Vertex* other = *others;
-			float dist = distance(&vertex->shape->getPosition(), &other->shape->getPosition());
+			float dist = Util::distance(&vertex->shape->getPosition(), &other->shape->getPosition());
 			if (dist < TOO_CLOSE_THRESHOLD) {
 				toRemove.push_back(vertex);
 				break;
@@ -54,7 +56,7 @@ std::list<Vertex*> generateVertices(const int WIDTH, const int HEIGHT, const int
 sf::RectangleShape* lineBetween(const sf::Vector2f a, const sf::Vector2f b) {
 	float centerX = (a.x + b.x) / 2;
 	float centerY = (a.y + b.y) / 2;
-	float length = distance(&a, &b);
+	float length = Util::distance(&a, &b);
 
 	float angle = atan2(b.y - a.y, b.x - a.x) * 180 / M_PI;
 
@@ -75,7 +77,7 @@ std::list<sf::RectangleShape*> generateEdges(std::list<Vertex*>* verticesPtr) {
 		std::list<Vertex*>::iterator others = vertices.begin();
 		for (std::advance(others, idx + 1); others != vertices.end(); ++others) {
 			Vertex* other = *others;
-			float dist = distance(&vertex->shape->getPosition(), &other->shape->getPosition());
+			float dist = Util::distance(&vertex->shape->getPosition(), &other->shape->getPosition());
 			if (dist < CONNETED_THRESHOLD) {
 				sf::RectangleShape* line = lineBetween(vertex->shape->getPosition(), other->shape->getPosition());
 				edges.push_back(line);
@@ -83,6 +85,27 @@ std::list<sf::RectangleShape*> generateEdges(std::list<Vertex*>* verticesPtr) {
 		}
 		
 		idx++;
+	}
+	
+	Edge* kuk = new Edge(vertices.front(), vertices.back());
+	
+	// Make planar
+	std::list<sf::RectangleShape*> toRemove;
+	for(auto& edge : edges) {
+		std::list<sf::RectangleShape*>::iterator others = edges.begin();
+		for (std::advance(others, idx + 1); others != edges.end(); ++others) {
+			sf::RectangleShape* other = *others;
+			// TODO if edge cross "other"
+			if (false) {
+				toRemove.push_back(edge);
+				break;
+			}
+		}
+	}
+	
+	for (auto& edge : toRemove) {
+		edges.remove(edge);
+		delete edge;
 	}
 
 	return edges;
