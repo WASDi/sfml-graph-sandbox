@@ -5,7 +5,7 @@
 
 #define NUM_VERTICES 60
 #define TOO_CLOSE_THRESHOLD 40
-#define CONNETED_THRESHOLD 150
+#define CONNETED_THRESHOLD 200
 
 std::list<Vertex*> generateVertices(const int WIDTH, const int HEIGHT, const int MARGIN) {
 	std::list<Vertex*> vertices;
@@ -62,22 +62,27 @@ std::list<Edge*> generateEdges(std::list<Vertex*>* verticesPtr) {
 
 	// Make planar
 	std::list<Edge*> toRemove;
+	idx = 0;
 	for (auto& edge : edges) {
 		std::list<Edge*>::iterator others = edges.begin();
 		for (std::advance(others, idx + 1); others != edges.end(); ++others) {
 			Edge* other = *others;
-			// TODO if edge cross "other"
-			if (false) {
+			if (edge->sharesVertexWith(other)) {
+				continue;
+			} else if (edge->intersects(other)) {
 				toRemove.push_back(edge);
 				break;
 			}
 		}
+		idx++;
 	}
 
 	for (auto& edge : toRemove) {
 		edges.remove(edge);
 		delete edge;
 	}
+	
+	// TODO would look nice to remove edges that are *almost* parallel by per vertex, checking the angles of its connected edges
 
 	return edges;
 }

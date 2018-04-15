@@ -8,6 +8,9 @@ class Edge {
 public:
 	Edge(Vertex* from, Vertex* to);
 	~Edge();
+	
+	bool sharesVertexWith(Edge* that);
+	bool intersects(Edge* that);
 
 	Vertex* from;
 	Vertex* to;
