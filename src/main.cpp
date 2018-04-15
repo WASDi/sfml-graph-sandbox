@@ -49,7 +49,7 @@ int main() {
 		window.clear(sf::Color(222, 222, 222));
 
 		for (auto& edge : edges) {
-			window.draw(*edge);
+			window.draw(*edge->shape);
 		}
 
 		for (auto& vertex : vertices) {

@@ -14,8 +14,8 @@ Edge::~Edge() {
 
 #define LINE_WIDTH 4
 sf::Shape* Edge::generateShape() {
-	const sf::Vector2f a = this->from->shape->getPosition();
-	const sf::Vector2f b = this->to->shape->getPosition();
+	const sf::Vector2f a = *this->from->getPosition();
+	const sf::Vector2f b = *this->to->getPosition();
 	float centerX = (a.x + b.x) / 2;
 	float centerY = (a.y + b.y) / 2;
 	
