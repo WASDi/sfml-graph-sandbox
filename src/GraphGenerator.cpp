@@ -1,3 +1,5 @@
+#include "GraphGenerator.h"
+
 #include "Vertex.h"
 #include "Edge.h"
 #include "Util.h"
@@ -7,11 +9,17 @@
 #define TOO_CLOSE_THRESHOLD 40
 #define CONNETED_THRESHOLD 200
 
-std::list<Vertex*> generateVertices(const int WIDTH, const int HEIGHT, const int MARGIN) {
+GraphGenerator::GraphGenerator(const int windowWidth, const int windowHeight, const int windowMargin) :
+windowWidth(windowWidth),
+windowHeight(windowHeight),
+windowMargin(windowMargin) {
+}
+
+std::list<Vertex*> GraphGenerator::generateVertices() {
 	std::list<Vertex*> vertices;
 	for (int i = 0; i < NUM_VERTICES; i++) {
-		float x = MARGIN + Util::randf()*(WIDTH - MARGIN * 2);
-		float y = MARGIN + Util::randf()*(HEIGHT - MARGIN * 2);
+		float x = this->windowMargin + Util::randf()*(this->windowWidth - this->windowMargin * 2);
+		float y = this->windowMargin + Util::randf()*(this->windowHeight - this->windowMargin * 2);
 		Vertex* vertex = new Vertex(i + 1, x, y);
 		vertices.push_back(vertex);
 	}
@@ -41,7 +49,7 @@ std::list<Vertex*> generateVertices(const int WIDTH, const int HEIGHT, const int
 	return vertices;
 }
 
-std::list<Edge*> generateEdges(std::list<Vertex*>* verticesPtr) {
+std::list<Edge*> GraphGenerator::generateEdges(std::list<Vertex*>* verticesPtr) {
 	std::list<Vertex*> vertices = *verticesPtr;
 	std::list<Edge*> edges;
 
@@ -81,7 +89,7 @@ std::list<Edge*> generateEdges(std::list<Vertex*>* verticesPtr) {
 		edges.remove(edge);
 		delete edge;
 	}
-	
+
 	// TODO would look nice to remove edges that are *almost* parallel by per vertex, checking the angles of its connected edges
 
 	return edges;
