@@ -2,7 +2,7 @@
 #define EDGE_H
 
 #include "Vertex.h"
-//#include <SFML/Graphics/Shape.hpp>
+#include <SFML/Graphics/Shape.hpp>
 
 class Edge {
 public:
