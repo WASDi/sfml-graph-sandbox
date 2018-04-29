@@ -6,7 +6,7 @@
 #include <list>
 
 #define NUM_VERTICES 60
-#define TOO_CLOSE_THRESHOLD 40
+#define TOO_CLOSE_THRESHOLD 50
 #define CONNETED_THRESHOLD 200
 
 GraphGenerator::GraphGenerator(const int windowWidth, const int windowHeight, const int windowMargin) :

@@ -4,6 +4,7 @@
 #include "GraphGenerator.h"
 #include "Util.h"
 #include "Vertex.h"
+#include "KruskalAlgorithm.h"
 
 #define WIDTH 800
 #define HEIGHT 800
@@ -41,6 +42,9 @@ int main() {
 				while (!edges.empty()) delete edges.front(), edges.pop_front();
 				vertices = graph->generateVertices();
 				edges = graph->generateEdges(&vertices);
+			}
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::K) {
+				KruskalAlgorithm(vertices, edges).execute();
 			}
 		}
 
