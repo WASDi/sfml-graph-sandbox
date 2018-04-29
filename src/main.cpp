@@ -45,6 +45,10 @@ int main() {
 			}
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::K) {
 				KruskalAlgorithm(vertices, edges).execute();
+				edges.sort([](Edge* a, Edge* b) -> bool {
+					// sort by color to make the minimum spanning tree render more visible
+					return a->shape->getFillColor().b > b->shape->getFillColor().b;
+				});
 			}
 		}
 

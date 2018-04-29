@@ -12,9 +12,21 @@ Edge::~Edge() {
 	delete this->shape;
 }
 
+bool Edge::shortestFirstComparator(Edge* a, Edge* b) {
+	return a->length() < b->length();
+}
+
+bool Edge::longestFirstComparator(Edge* a, Edge* b) {
+	return !shortestFirstComparator(a, b);
+}
+
 bool Edge::sharesVertexWith(Edge* that) {
 	return this->from == that->from || this->from == that->to ||
 			this->to == that->from || this->to == that->to;
+}
+
+float Edge::length() {
+	return Util::distance(this->from->getPosition(), this->to->getPosition());
 }
 
 #define USE_STACKOVERFLOW_INSTEAD_OF_MY_SHITTY_ALGORITM true
@@ -46,7 +58,7 @@ bool Edge::intersects(Edge* that) {
 	return false;
 }
 
-#define LINE_WIDTH 4
+#define LINE_WIDTH 5
 
 sf::Shape* Edge::generateShape() {
 	const sf::Vector2f a = *this->from->getPosition();

@@ -9,7 +9,11 @@ public:
 	Edge(Vertex* from, Vertex* to);
 	~Edge();
 	
+	static bool shortestFirstComparator(Edge* a, Edge* b);
+	static bool longestFirstComparator(Edge* a, Edge* b);
+
 	bool sharesVertexWith(Edge* that);
+	float length();
 	bool intersects(Edge* that);
 
 	Vertex* from;
